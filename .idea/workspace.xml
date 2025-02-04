@@ -5,34 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3018c449-cc07-4152-8510-a0f6fb749b1f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/Responses/PlayerStatisticsResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/Responses/SquadsResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/Responses/TeamResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/SimpleObjects/League.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/SimpleObjects/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/SimpleObjects/ServerResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/SimpleObjects/Statistics.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/SimpleObjects/Team.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/SimpleObjects/Venue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/Wrappers/PlayerStatisticsWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/Wrappers/SquadsWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/Wrappers/TeamVenueWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ServerResp/test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/zpoif/project/players/playerapp/hello-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +42,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.FootballApplication.executor": "Run",
     "Application.HelloApplication.executor": "Run",
     "Application.PlayerApp.executor": "Run",
     "Application.PlayerWindow.executor": "Run",
@@ -75,8 +51,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/acer/Desktop/Studia/Semestr3/Football_Api_Project/Football_Api_Project",
     "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -93,6 +70,7 @@
     <attachedChunks>
       <set>
         <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+        <option value="jdk-22-openjdk-22-3183f394aec4-bad0321e" />
       </set>
     </attachedChunks>
   </component>
