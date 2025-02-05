@@ -1,4 +1,4 @@
-module org.zpoif.project.players.playerapp {
+module Vizualization {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -8,7 +8,6 @@ module org.zpoif.project.players.playerapp {
     requires okhttp3;
     requires com.opencsv;
     requires org.jsoup;
-    opens org.zpoif.project.players.playerapp to com.google.gson, javafx.fxml; // Otwórz pakiet dla Gson
     opens ServerResp to com.google.gson;
 
     exports Vizualization;

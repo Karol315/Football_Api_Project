@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3018c449-cc07-4152-8510-a0f6fb749b1f" name="Changes" comment="">
+    <list default="true" id="3018c449-cc07-4152-8510-a0f6fb749b1f" name="Changes" comment="Update to FootballApplication.java, &#10;path between windows created">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/upload_date.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/upload_date.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/example/demoapp/FootballApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ServerResp/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ServerResp/test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,27 +39,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.FootballApplication.executor": "Run",
-    "Application.HelloApplication.executor": "Run",
-    "Application.PlayerApp.executor": "Run",
-    "Application.PlayerWindow.executor": "Run",
-    "Application.TeamWindow.executor": "Run",
-    "Application.test.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/acer/Desktop/Studia/Semestr3/Football_Api_Project/Football_Api_Project",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.FootballApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PlayerApp.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PlayerWindow.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TeamWindow.executor&quot;: &quot;Run&quot;,
+    &quot;Application.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/acer/Desktop/Studia/Semestr3/Football_Api_Project/Football_Api_Project&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="org.zpoif.project.players.playerapp" />
@@ -88,7 +83,31 @@
       <option name="presentableId" value="Default" />
       <updated>1738515747285</updated>
     </task>
+    <task id="LOCAL-00001" summary="Update to FootballApplication.java, &#10;path between windows created">
+      <option name="closed" value="true" />
+      <created>1738725155778</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1738725155778</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update to FootballApplication.java, &#10;path between windows created" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to FootballApplication.java, &#10;path between windows created" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

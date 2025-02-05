@@ -1,0 +1,677 @@
+Index: src/main/java/ScrapeModule/example/demoapp/FootballApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ScrapeModule/example/demoapp/FootballApplication.java b/src/main/java/Vizualization/demoapp/FootballApplication.java
+rename from src/main/java/ScrapeModule/example/demoapp/FootballApplication.java
+rename to src/main/java/Vizualization/demoapp/FootballApplication.java
+--- a/src/main/java/ScrapeModule/example/demoapp/FootballApplication.java	(revision f71e308128a2867708df2c1a26b7290185d7437b)
++++ b/src/main/java/Vizualization/demoapp/FootballApplication.java	(date 1738724668685)
+@@ -1,5 +1,8 @@
+-package ScrapeModule.example.demoapp;
++package Vizualization.demoapp;
+ 
++import Vizualization.PlayerWindow;
++import Vizualization.TeamWindow;
++import com.google.gson.Gson;
+ import javafx.application.Application;
+ import javafx.beans.property.SimpleIntegerProperty;
+ import javafx.beans.property.SimpleStringProperty;
+@@ -9,63 +12,69 @@
+ import javafx.scene.layout.VBox;
+ import javafx.stage.Modality;
+ import javafx.stage.Stage;
++import okhttp3.OkHttpClient;
++import okhttp3.Request;
++import okhttp3.Response;
+ import ScrapeModule.data.DataLoader;
+ import ScrapeModule.scrapper.Entry;
++import ServerResp.Responses.TeamResponse;
++import ServerResp.Wrappers.TeamVenueWrapper;
++import ServerResp.SimpleObjects.Team;
+ 
+ import java.util.List;
+ 
+ public class FootballApplication extends Application {
+ 
++    private static final String KEY = "3a8e79e75eef3edc965de9344d41dd01";  // Wstaw swój klucz API
++    Stage currentStage;
++
+     @Override
+     public void start(Stage stage) {
+-
+-        // Wczytanie danych
+-        //DataLoader.testDataLoader();
++        this.currentStage=stage;
+         DataLoader.uploadData();
+         List<Entry> premierLeagueEntries = DataLoader.loadScrappedData("database/premier_league.csv");
+         List<Entry> laligaEntries = DataLoader.loadScrappedData("database/laliga.csv");
+         List<Entry> bundesligaEntries = DataLoader.loadScrappedData("database/bundesliga.csv");
+         List<Entry> ekstraklasaEntries = DataLoader.loadScrappedData("database/ekstraklasa.csv");
+ 
+-
+-        // Tabele ligowe
+-        TableView<Entry> premierLeagueTable = createTableView(premierLeagueEntries);
+-        TableView<Entry> laligaTable = createTableView(laligaEntries);
+-        TableView<Entry> bundesligaTable = createTableView(bundesligaEntries);
+-        TableView<Entry> ekstraklasaTable = createTableView(ekstraklasaEntries);
+-
+-        // Stworzenie zakładek
+         TabPane tabPane = new TabPane();
+-
+-        Tab premierLeagueTab = new Tab("Premier League Table");
+-        premierLeagueTab.setContent(premierLeagueTable);
+-        premierLeagueTab.setClosable(false);
+-
+-        Tab laligaTab = new Tab("LaLiga Table");
+-        laligaTab.setContent(laligaTable);
+-        laligaTab.setClosable(false);
+-
+-        Tab bundesligaTab = new Tab("Bundesliga Table");
+-        bundesligaTab.setContent(bundesligaTable);
+-        bundesligaTab.setClosable(false);
+-
+-        Tab ekstraklasaTab = new Tab("Ekstraklasa Table");
+-        ekstraklasaTab.setContent(ekstraklasaTable);
+-        ekstraklasaTab.setClosable(false);
+-
+-        tabPane.getTabs().addAll(premierLeagueTab, laligaTab, bundesligaTab, ekstraklasaTab);
+-        // Tu się doda css
+-        // tabPane.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
++        tabPane.getTabs().addAll(
++                createLeagueTab("Premier League", premierLeagueEntries),
++                createLeagueTab("LaLiga", laligaEntries),
++                createLeagueTab("Bundesliga", bundesligaEntries),
++                createLeagueTab("Ekstraklasa", ekstraklasaEntries)
++        );
+ 
+         Scene scene = new Scene(tabPane, 1000, 700);
+-        stage.setTitle("TableView Demo");
++        stage.setTitle("Football League Tables");
+         stage.setScene(scene);
+         stage.show();
++
++
+     }
+ 
+-    // Metoda do tworzenia tabeli ligowej
+-    private static TableView<Entry> createTableView(List<Entry> entries) {
+-        TableView<Entry> table = new TableView<Entry>();
++    private Tab createLeagueTab(String leagueName, List<Entry> entries) {
++        TableView<Entry> tableView = createTableView(entries);
++        Tab tab = new Tab(leagueName, tableView);
++        tab.setClosable(false);
++
++        // Dodajemy obsługę kliknięcia na wiersz tabeli
++        tableView.setRowFactory(tv -> {
++            TableRow<Entry> row = new TableRow<>();
++            row.setOnMouseClicked(event -> {
++                if (event.getClickCount() == 2 && !row.isEmpty()) {
++                    Entry clickedEntry = row.getItem();
++                    openClubDetails(clickedEntry, currentStage);
++                }
++            });
++            return row;
++        });
++
++        return tab;
++    }
++
++    private TableView<Entry> createTableView(List<Entry> entries) {
++        TableView<Entry> table = new TableView<>();
+ 
+         TableColumn<Entry, String> clubNameCol = new TableColumn<>("Club Name");
+         clubNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubName()));
+@@ -79,40 +88,83 @@
+         TableColumn<Entry, Integer> pointsCol = new TableColumn<>("Points");
+         pointsCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getPoints()).asObject());
+ 
+-        TableColumn<Entry, Integer> winsCol = new TableColumn<>("Wins");
+-        winsCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getWins()).asObject());
+-
+-        TableColumn<Entry, Integer> drawsCol = new TableColumn<>("Draws");
+-        drawsCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDraws()).asObject());
+-
+-        TableColumn<Entry, Integer> failuresCol = new TableColumn<>("Failures");
+-        failuresCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getFailures()).asObject());
+-
+-        TableColumn<Entry, String> goalBalanceCol = new TableColumn<>("Goal Balance");
+-        goalBalanceCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGoalBalance()));
+-
+-        table.getColumns().addAll(positionCol, clubNameCol, matchesCol, pointsCol, winsCol, drawsCol, failuresCol, goalBalanceCol);
++        table.getColumns().addAll(positionCol, clubNameCol, matchesCol, pointsCol);
+         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+         table.setItems(FXCollections.observableArrayList(entries));
+ 
+         return table;
+     }
+ 
+-    // Metoda do obsłużenia informacji o zespołach
+-    private void openClubDetails(Entry entry) {
+-        Stage detailsStage = new Stage();
+-        detailsStage.initModality(Modality.APPLICATION_MODAL);
+-        detailsStage.setTitle("Club Details - " + entry.getClubName());
++    private void openClubDetails(Entry entry, Stage parentStage) {
++        String clubName = entry.getClubName();
++        int teamId = fetchTeamId(clubName);  // Pobranie ID zespołu z API
++
++        if (teamId != -1) {
++            try {
++                openTeamWindow(teamId, currentStage);
++            } catch (Exception e) {
++                e.printStackTrace();
++            }
++        } else {
++            showErrorPopup("Błąd", "Nie udało się znaleźć zespołu: " + clubName);
++        }
++    }
++
++    private int fetchTeamId(String clubName) {
++        OkHttpClient client = new OkHttpClient();
++        Gson gson = new Gson();
++
++        Request request = new Request.Builder()
++                .url("https://v3.football.api-sports.io/teams?search=" + clubName)
++                .addHeader("x-rapidapi-host", "v3.football.api-sports.io")
++                .addHeader("x-rapidapi-key", KEY)
++                .build();
++
++        try (Response response = client.newCall(request).execute()) {
++            if (response.body() != null) {
++                String jsonData = response.body().string();
++                TeamResponse teamResponse = gson.fromJson(jsonData, TeamResponse.class);
+ 
+-        Label label = new Label("Here would be details of " + entry.getClubName());
++                if (teamResponse.getResponse() != null && !teamResponse.getResponse().isEmpty()) {
++                    TeamVenueWrapper teamVenueWrapper = teamResponse.getResponse().getFirst();
++                    Team team = teamVenueWrapper.getTeam();
++                    return team.id;
++                }
++            }
++        } catch (Exception e) {
++            e.printStackTrace();
++        }
++        return -1;  // Jeśli ID nie zostanie znalezione
++    }
++
++    private void showErrorPopup(String title, String message) {
++        Stage errorStage = new Stage();
++        errorStage.initModality(Modality.APPLICATION_MODAL);
++        errorStage.setTitle(title);
++
++        Label label = new Label(message);
+         VBox vbox = new VBox(label);
+-        Scene scene = new Scene(vbox, 300, 200);
++        vbox.setStyle("-fx-padding: 10;");
++        Scene scene = new Scene(vbox, 300, 100);
++
++        errorStage.setScene(scene);
++        errorStage.show();
++    }
++
++    private void openTeamWindow(int teamId, Stage stage) throws Exception {
++
++        TeamWindow teamWindow = new TeamWindow(teamId, currentStage);
++        Stage teamStage = new Stage();
+ 
+-        detailsStage.setScene(scene);
+-        detailsStage.show();
++        // Ustawiamy wymiary nowego okna na te same, co obecnego
++        teamStage.setWidth(stage.getWidth());
++        teamStage.setHeight(stage.getHeight());
++
++        teamWindow.start(teamStage);
++        currentStage.hide(); // Ukrywamy obecne okno
+     }
+ 
+     public static void main(String[] args) {
+         launch();
+     }
+-}
+\ No newline at end of file
++}
+Index: src/main/java/Vizualization/PlayerWindow.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Vizualization;\r\n\r\nimport ServerResp.SimpleObjects.Player;\r\nimport ServerResp.SimpleObjects.Statistics;\r\nimport ServerResp.Wrappers.PlayerStatisticsWrapper;\r\nimport javafx.application.Application;\r\nimport javafx.concurrent.Task;\r\nimport javafx.scene.Scene;\r\nimport javafx.scene.control.Button;\r\nimport javafx.scene.control.Label;\r\nimport javafx.scene.image.Image;\r\nimport javafx.scene.image.ImageView;\r\nimport javafx.scene.layout.VBox;\r\nimport javafx.stage.Stage;\r\n\r\npublic class PlayerWindow extends Application {\r\n\r\n    private int playerId;\r\n    private Stage previousStage; // Opcjonalnie, aby łatwiej wracać do poprzedniego okna\r\n\r\n    // Konstruktor przyjmujący playerId (oraz opcjonalnie referencję do poprzedniego okna)\r\n    public PlayerWindow(int playerId) {\r\n        this.playerId = playerId;\r\n    }\r\n\r\n    public PlayerWindow(int playerId, Stage previousStage) {\r\n        this.playerId = playerId;\r\n        this.previousStage = previousStage;\r\n    }\r\n\r\n    @Override\r\n    public void start(Stage stage) throws Exception {\r\n        // Główny layout\r\n        VBox vbox = new VBox(15);\r\n        vbox.setStyle(\"-fx-padding: 15; -fx-alignment: center;\");\r\n\r\n        // Tworzymy labelki, które później zaktualizujemy\r\n        Label nameLabel = new Label(\"Name: Loading...\");\r\n        Label ageLabel = new Label(\"Age: Loading...\");\r\n        Label teamLabel = new Label(\"Team: Loading...\");\r\n        Label goalsLabel = new Label(\"Goals: Loading...\");\r\n        Label assistsLabel = new Label(\"Assists: Loading...\");\r\n\r\n        // Dodajemy obrazek (ImageView)\r\n        ImageView playerImageView = new ImageView();\r\n        playerImageView.setFitWidth(100); // Można zmieniać rozmiar\r\n        playerImageView.setFitHeight(100);\r\n\r\n        // Przycisk do powrotu (strzałka wstecz)\r\n        Button backButton = new Button(\"← Back\");\r\n        backButton.setOnAction(e -> {\r\n            // Jeśli posiadamy referencję do poprzedniego okna, pokaż je\r\n            if (previousStage != null) {\r\n                previousStage.show();\r\n            }\r\n            stage.close();\r\n        });\r\n\r\n        // Dodajemy wszystkie elementy do layoutu\r\n        vbox.getChildren().addAll(playerImageView, nameLabel, ageLabel, teamLabel, goalsLabel, assistsLabel, backButton);\r\n\r\n        Scene scene = new Scene(vbox, 300, 300);\r\n        stage.setScene(scene);\r\n        stage.setTitle(\"Player Details\");\r\n        stage.show();\r\n\r\n        // Pobieramy dane o zawodniku w tle\r\n        Task<PlayerStatisticsWrapper> task = new Task<>() {\r\n            @Override\r\n            protected PlayerStatisticsWrapper call() throws Exception {\r\n                return new PlayerStatisticsWrapper(playerId);\r\n            }\r\n        };\r\n\r\n        task.setOnSucceeded(event -> {\r\n            PlayerStatisticsWrapper wrapper = task.getValue();\r\n            // Pobieramy dane o zawodniku\r\n            Player player = wrapper.getPlayer();\r\n            // Zakładamy, że lista statystyk nie jest pusta\r\n            Statistics stats = wrapper.getStatistics().getFirst();\r\n\r\n            // Aktualizujemy UI\r\n            nameLabel.setText(\"Name: \" + player.getName());\r\n            ageLabel.setText(\"Age: \" + player.getAge());\r\n            // Drużyna pochodzi ze statystyk\r\n            teamLabel.setText(\"Team: \" + stats.getTeam().getName());\r\n            goalsLabel.setText(\"Goals: \" + stats.getGoals().getTotal());\r\n            assistsLabel.setText(\"Assists: \" + stats.getGoals().getAssists());\r\n\r\n            // Ustawiamy zdjęcie zawodnika\r\n            Image playerImage = new Image(player.getPhoto());\r\n            playerImageView.setImage(playerImage);\r\n        });\r\n\r\n        task.setOnFailed(event -> {\r\n            nameLabel.setText(\"Failed to load player data.\");\r\n        });\r\n\r\n        new Thread(task).start();\r\n    }\r\n\r\n    public static void main(String[] args) {\r\n        launch(args);\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Vizualization/PlayerWindow.java b/src/main/java/Vizualization/PlayerWindow.java
+--- a/src/main/java/Vizualization/PlayerWindow.java	(revision f71e308128a2867708df2c1a26b7290185d7437b)
++++ b/src/main/java/Vizualization/PlayerWindow.java	(date 1738722084148)
+@@ -16,9 +16,8 @@
+ public class PlayerWindow extends Application {
+ 
+     private int playerId;
+-    private Stage previousStage; // Opcjonalnie, aby łatwiej wracać do poprzedniego okna
++    private Stage previousStage;
+ 
+-    // Konstruktor przyjmujący playerId (oraz opcjonalnie referencję do poprzedniego okna)
+     public PlayerWindow(int playerId) {
+         this.playerId = playerId;
+     }
+@@ -30,41 +29,42 @@
+ 
+     @Override
+     public void start(Stage stage) throws Exception {
+-        // Główny layout
+         VBox vbox = new VBox(15);
+         vbox.setStyle("-fx-padding: 15; -fx-alignment: center;");
+ 
+-        // Tworzymy labelki, które później zaktualizujemy
+         Label nameLabel = new Label("Name: Loading...");
+         Label ageLabel = new Label("Age: Loading...");
++        Label leagueLabel = new Label("League: Loading...");
+         Label teamLabel = new Label("Team: Loading...");
+         Label goalsLabel = new Label("Goals: Loading...");
+         Label assistsLabel = new Label("Assists: Loading...");
++        Label yellowCardsLabel = new Label("Yellow Cards: Loading...");
++        Label redCardsLabel = new Label("Red Cards: Loading...");
++        Label shootingAccuracyLabel = new Label("Shooting Accuracy: Loading...");
++        Label minutesPlayedLabel = new Label("Minutes Played: Loading...");
+ 
+-        // Dodajemy obrazek (ImageView)
+         ImageView playerImageView = new ImageView();
+-        playerImageView.setFitWidth(100); // Można zmieniać rozmiar
++        playerImageView.setFitWidth(100);
+         playerImageView.setFitHeight(100);
+ 
+-        // Przycisk do powrotu (strzałka wstecz)
+         Button backButton = new Button("← Back");
+         backButton.setOnAction(e -> {
+-            // Jeśli posiadamy referencję do poprzedniego okna, pokaż je
+             if (previousStage != null) {
+                 previousStage.show();
+             }
+             stage.close();
+         });
+ 
+-        // Dodajemy wszystkie elementy do layoutu
+-        vbox.getChildren().addAll(playerImageView, nameLabel, ageLabel, teamLabel, goalsLabel, assistsLabel, backButton);
++        vbox.getChildren().addAll(
++                playerImageView, nameLabel, ageLabel, leagueLabel, teamLabel, goalsLabel, assistsLabel,
++                yellowCardsLabel, redCardsLabel, shootingAccuracyLabel, minutesPlayedLabel, backButton
++        );
+ 
+-        Scene scene = new Scene(vbox, 300, 300);
++        Scene scene = new Scene(vbox, 350, 450);
+         stage.setScene(scene);
+         stage.setTitle("Player Details");
+         stage.show();
+ 
+-        // Pobieramy dane o zawodniku w tle
+         Task<PlayerStatisticsWrapper> task = new Task<>() {
+             @Override
+             protected PlayerStatisticsWrapper call() throws Exception {
+@@ -74,27 +74,33 @@
+ 
+         task.setOnSucceeded(event -> {
+             PlayerStatisticsWrapper wrapper = task.getValue();
+-            // Pobieramy dane o zawodniku
+             Player player = wrapper.getPlayer();
+-            // Zakładamy, że lista statystyk nie jest pusta
+             Statistics stats = wrapper.getStatistics().getFirst();
+ 
+-            // Aktualizujemy UI
+             nameLabel.setText("Name: " + player.getName());
+             ageLabel.setText("Age: " + player.getAge());
+-            // Drużyna pochodzi ze statystyk
++            leagueLabel.setText("League: " + stats.getLeague().getName());
+             teamLabel.setText("Team: " + stats.getTeam().getName());
+             goalsLabel.setText("Goals: " + stats.getGoals().getTotal());
+             assistsLabel.setText("Assists: " + stats.getGoals().getAssists());
++            yellowCardsLabel.setText("Yellow Cards: " + stats.getCards().getYellow());
++            redCardsLabel.setText("Red Cards: " + stats.getCards().getRed());
++            minutesPlayedLabel.setText("Minutes Played: " + stats.getGames().getMinutes());
+ 
+-            // Ustawiamy zdjęcie zawodnika
++            int totalShots = stats.getShots().getTotal();
++            int shotsOnTarget = stats.getShots().getOn();
++            if (totalShots > 0) {
++                double accuracy = (shotsOnTarget * 100.0) / totalShots;
++                shootingAccuracyLabel.setText(String.format("Shooting Accuracy: %.2f%%", accuracy));
++            } else {
++                shootingAccuracyLabel.setText("Shooting Accuracy: N/A");
++            }
++
+             Image playerImage = new Image(player.getPhoto());
+             playerImageView.setImage(playerImage);
+         });
+ 
+-        task.setOnFailed(event -> {
+-            nameLabel.setText("Failed to load player data.");
+-        });
++        task.setOnFailed(event -> nameLabel.setText("Failed to load player data."));
+ 
+         new Thread(task).start();
+     }
+@@ -103,4 +109,3 @@
+         launch(args);
+     }
+ }
+-
+Index: src/main/java/ServerResp/test.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ServerResp;\r\n\r\nimport ServerResp.SimpleObjects.Team;\r\nimport ServerResp.Wrappers.PlayerStatisticsWrapper;\r\nimport ServerResp.Wrappers.SquadsWrapper;\r\nimport com.google.gson.Gson;\r\nimport okhttp3.OkHttpClient;\r\nimport okhttp3.Request;\r\nimport okhttp3.Response;\r\n\r\nimport java.io.IOException;\r\n\r\npublic class test {\r\n    public static void main(String[] args) {\r\n\r\n        String KEY = \"3a8e79e75eef3edc965de9344d41dd01\";\r\n        SquadsWrapper squadsWrapper = new SquadsWrapper(33);\r\n        System.out.println(squadsWrapper.getTeam());\r\n        System.out.println(squadsWrapper.getPlayers());\r\n\r\n        System.out.println(\"##############################################################\");\r\n        System.out.println(\"##############################################################\");\r\n\r\n\r\n\r\n        PlayerStatisticsWrapper playerStatisticsWrapper = new PlayerStatisticsWrapper(squadsWrapper.getPlayers().getFirst().getId());\r\n        System.out .println(playerStatisticsWrapper.getPlayer());\r\n        System.out .println(playerStatisticsWrapper.getStatistics().getFirst());\r\n\r\n\r\n    }\r\n\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ServerResp/test.java b/src/main/java/ServerResp/test.java
+--- a/src/main/java/ServerResp/test.java	(revision f71e308128a2867708df2c1a26b7290185d7437b)
++++ b/src/main/java/ServerResp/test.java	(date 1738720349947)
+@@ -1,32 +1,62 @@
+ package ServerResp;
+ 
++import ServerResp.Responses.SquadsResponse;
++import ServerResp.Responses.TeamResponse;
++import ServerResp.SimpleObjects.Player;
+ import ServerResp.SimpleObjects.Team;
+ import ServerResp.Wrappers.PlayerStatisticsWrapper;
+ import ServerResp.Wrappers.SquadsWrapper;
++import ServerResp.Wrappers.TeamVenueWrapper;
+ import com.google.gson.Gson;
+ import okhttp3.OkHttpClient;
+ import okhttp3.Request;
+ import okhttp3.Response;
+ 
+ import java.io.IOException;
++import java.util.List;
+ 
+ public class test {
+     public static void main(String[] args) {
+ 
+         String KEY = "3a8e79e75eef3edc965de9344d41dd01";
+-        SquadsWrapper squadsWrapper = new SquadsWrapper(33);
+-        System.out.println(squadsWrapper.getTeam());
+-        System.out.println(squadsWrapper.getPlayers());
++//        SquadsWrapper squadsWrapper = new SquadsWrapper(33);
++//        System.out.println(squadsWrapper.getTeam());
++//        System.out.println(squadsWrapper.getPlayers());
++//
++//        System.out.println("##############################################################");
++//        System.out.println("##############################################################");
++//
++//
++//
++//        PlayerStatisticsWrapper playerStatisticsWrapper = new PlayerStatisticsWrapper(squadsWrapper.getPlayers().getFirst().getId());
++//        System.out .println(playerStatisticsWrapper.getPlayer());
++//        System.out .println(playerStatisticsWrapper.getStatistics().getFirst());
+ 
+-        System.out.println("##############################################################");
+-        System.out.println("##############################################################");
+ 
++        OkHttpClient client = new OkHttpClient();
++        Gson gson = new Gson();
+ 
++        Request request = new Request.Builder()
++                .url("https://v3.football.api-sports.io/teams?search=Real Madrid")
++                .addHeader("x-rapidapi-host", "v3.football.api-sports.io")
++                .addHeader("x-rapidapi-key", KEY)  // Wstaw swój klucz API
++                .build();
+ 
+-        PlayerStatisticsWrapper playerStatisticsWrapper = new PlayerStatisticsWrapper(squadsWrapper.getPlayers().getFirst().getId());
+-        System.out .println(playerStatisticsWrapper.getPlayer());
+-        System.out .println(playerStatisticsWrapper.getStatistics().getFirst());
++        try (Response response = client.newCall(request).execute()) {
++            if (response.body() != null) {
++                String jsonData = response.body().string();
+ 
++                TeamResponse teamResponse = gson.fromJson(jsonData, TeamResponse.class);
++                TeamVenueWrapper teamVenueWrapper = teamResponse.getResponse().getFirst();
++                Team team = teamVenueWrapper.getTeam();
++                int id = team.id;
++
++            } else {
++                throw new RuntimeException("Brak odpowiedzi od serwera");
++            }
++        } catch (Exception e) {
++            throw new RuntimeException("Błąd połączenia: " + e.getMessage());
++        }
+ 
+     }
+ 
+Index: src/main/java/Vizualization/TeamWindow.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Vizualization;\r\n\r\nimport ServerResp.SimpleObjects.Player;\r\nimport ServerResp.SimpleObjects.Team;\r\nimport ServerResp.Wrappers.SquadsWrapper;\r\nimport javafx.application.Application;\r\nimport javafx.concurrent.Task;\r\nimport javafx.scene.Scene;\r\nimport javafx.scene.control.Label;\r\nimport javafx.scene.image.Image;\r\nimport javafx.scene.image.ImageView;\r\nimport javafx.scene.layout.FlowPane;\r\nimport javafx.scene.layout.VBox;\r\nimport javafx.stage.Stage;\r\nimport javafx.scene.control.Button;\r\n\r\nimport java.util.List;\r\n\r\npublic class TeamWindow extends Application {\r\n\r\n    private Stage primaryStage;\r\n\r\n    @Override\r\n    public void start(Stage stage) throws Exception {\r\n        this.primaryStage = stage;\r\n\r\n        // Tworzymy główny layout\r\n        VBox vbox = new VBox(20); // Odstęp między elementami (pionowy)\r\n        vbox.setStyle(\"-fx-padding: 10; -fx-alignment: center;\");\r\n\r\n        // Tworzymy layout na logo drużyny na samej górze\r\n        ImageView teamLogo = new ImageView();\r\n        teamLogo.setFitWidth(200);\r\n        teamLogo.setFitHeight(200);\r\n        Label teamLabel = new Label(\"Team: \");\r\n\r\n        // Tworzymy layout na zawodników, używając FlowPane do automatycznego przechodzenia do nowej linii\r\n        FlowPane playersBox = new FlowPane(15, 15); // Odstęp między zawodnikami (poziomo i pionowo)\r\n        playersBox.setStyle(\"-fx-alignment: center;\");\r\n\r\n        // Dodajemy logo drużyny do głównego layoutu\r\n        vbox.getChildren().addAll(teamLogo, teamLabel, playersBox);\r\n\r\n        // Rozpoczynamy pobieranie danych o drużynie i zawodnikach w tle\r\n        Task<SquadsWrapper> task = new Task<>() {\r\n            @Override\r\n            protected SquadsWrapper call() throws Exception {\r\n                return new SquadsWrapper(85); // Przykład z ID drużyny PSG (85)\r\n            }\r\n        };\r\n\r\n        // Po zakończeniu zadania, zaktualizuj interfejs\r\n        task.setOnSucceeded(event -> {\r\n            SquadsWrapper wrapper = task.getValue();\r\n            Team team = wrapper.getTeam();\r\n            List<Player> players = wrapper.getPlayers();\r\n\r\n            // Wyświetlamy dane drużyny\r\n            teamLabel.setText(\"Team: \" + team.getName());\r\n            teamLogo.setImage(new Image(team.getLogo()));\r\n\r\n            // Wyświetlamy zawodników\r\n            for (Player player : players) {\r\n                // Tworzymy kontener na zdjęcie i podpis\r\n                VBox playerBox = new VBox(5); // Odstęp między zdjęciem a podpisem\r\n                playerBox.setStyle(\"-fx-alignment: center;\");\r\n\r\n                // Tworzymy zdjęcie zawodnika\r\n                ImageView playerImage = new ImageView();\r\n                playerImage.setImage(new Image(player.getPhoto()));\r\n                playerImage.setFitWidth(80);\r\n                playerImage.setFitHeight(80);\r\n\r\n                // Tworzymy podpis (imię i numer)\r\n                Label playerLabel = new Label(player.getName() + \" (#\" + player.getNumber() + \")\");\r\n                playerLabel.setMaxWidth(100); // Ograniczenie szerokości podpisu, aby się mieścił\r\n                playerLabel.setWrapText(true); // Umożliwia zawijanie tekstu, jeśli nie mieści się w szerokości\r\n                playerLabel.setStyle(\"-fx-text-alignment: center;\");\r\n\r\n                // Dodajemy zdarzenie kliknięcia na zdjęcie\r\n                playerImage.setOnMouseClicked(e -> {\r\n                    try {\r\n                        openPlayerWindow(player,stage);  // Otwórz szczegóły zawodnika\r\n                    } catch (Exception ex) {\r\n                        throw new RuntimeException(ex);\r\n                    }\r\n                });\r\n\r\n                // Dodajemy zdjęcie i podpis do kontenera\r\n                playerBox.getChildren().addAll(playerImage, playerLabel);\r\n\r\n                // Dodajemy kontener z zawodnikiem do layoutu\r\n                playersBox.getChildren().add(playerBox);\r\n            }\r\n        });\r\n\r\n        // Obsługuje wyjątki w przypadku błędów podczas pobierania danych\r\n        task.setOnFailed(event -> {\r\n            teamLabel.setText(\"Failed to load team and players data.\");\r\n        });\r\n\r\n        // Uruchamiamy wątek w tle\r\n        new Thread(task).start();\r\n\r\n        // Tworzymy scenę z layoutem i ustawiamy ją na stage\r\n        Scene scene = new Scene(vbox, 600, 400); // Dostosowanie rozmiaru\r\n        stage.setScene(scene);\r\n        stage.setTitle(\"Team and Players Info\");\r\n        stage.show();\r\n    }\r\n\r\n    private void openPlayerWindow(Player player, Stage stage) throws Exception {\r\n        // Tworzymy nowe okno szczegółów zawodnika\r\n        PlayerWindow playerWindow = new PlayerWindow(player.getId(), stage);\r\n        Stage playerStage = new Stage();\r\n\r\n        // Ustawiamy wymiary nowego okna na wymiary obecnego okna\r\n        playerStage.setWidth(stage.getWidth());\r\n        playerStage.setHeight(stage.getHeight());\r\n\r\n        playerWindow.start(playerStage);\r\n        stage.hide(); // Ukrywamy okno drużyny\r\n    }\r\n\r\n    public static void main(String[] args) {\r\n        launch(args);\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Vizualization/TeamWindow.java b/src/main/java/Vizualization/TeamWindow.java
+--- a/src/main/java/Vizualization/TeamWindow.java	(revision f71e308128a2867708df2c1a26b7290185d7437b)
++++ b/src/main/java/Vizualization/TeamWindow.java	(date 1738724668682)
+@@ -2,6 +2,7 @@
+ 
+ import ServerResp.SimpleObjects.Player;
+ import ServerResp.SimpleObjects.Team;
++import ServerResp.SimpleObjects.Statistics;
+ import ServerResp.Wrappers.SquadsWrapper;
+ import javafx.application.Application;
+ import javafx.concurrent.Task;
+@@ -18,38 +19,49 @@
+ 
+ public class TeamWindow extends Application {
+ 
+-    private Stage primaryStage;
++
++    private Stage previousStage;
++    private int teamId;
+ 
+-    @Override
+-    public void start(Stage stage) throws Exception {
+-        this.primaryStage = stage;
+-
+-        // Tworzymy główny layout
+-        VBox vbox = new VBox(20); // Odstęp między elementami (pionowy)
++    public TeamWindow(int teamId,  Stage previousStage) {
++        this.previousStage = previousStage;
++        this.teamId = teamId;
++    }
++
++    public void start( Stage stage) throws Exception {
++        // Tworzymy główny layout (VBox) z odstępem 20px między elementami
++        VBox vbox = new VBox(20);
+         vbox.setStyle("-fx-padding: 10; -fx-alignment: center;");
+ 
+-        // Tworzymy layout na logo drużyny na samej górze
++        // Layout na logo drużyny i nazwę (na samej górze)
+         ImageView teamLogo = new ImageView();
+         teamLogo.setFitWidth(200);
+         teamLogo.setFitHeight(200);
+         Label teamLabel = new Label("Team: ");
+ 
+-        // Tworzymy layout na zawodników, używając FlowPane do automatycznego przechodzenia do nowej linii
+-        FlowPane playersBox = new FlowPane(15, 15); // Odstęp między zawodnikami (poziomo i pionowo)
++        Button backButton = new Button("← Back");
++        backButton.setOnAction(e -> {
++            if (previousStage != null) {
++                previousStage.show();
++            }
++            stage.close();
++        });
++
++        // Layout na zawodników – używamy FlowPane, aby elementy przechodziły do nowej linii, gdy zabraknie miejsca
++        FlowPane playersBox = new FlowPane(15, 15);
+         playersBox.setStyle("-fx-alignment: center;");
+ 
+-        // Dodajemy logo drużyny do głównego layoutu
+-        vbox.getChildren().addAll(teamLogo, teamLabel, playersBox);
++        // Dodajemy elementy do głównego layoutu
++        vbox.getChildren().addAll(teamLogo, teamLabel, playersBox, backButton);
+ 
+-        // Rozpoczynamy pobieranie danych o drużynie i zawodnikach w tle
++        // Pobieranie danych o drużynie i zawodnikach na podstawie przekazanego id
+         Task<SquadsWrapper> task = new Task<>() {
+             @Override
+             protected SquadsWrapper call() throws Exception {
+-                return new SquadsWrapper(85); // Przykład z ID drużyny PSG (85)
++                return new SquadsWrapper(teamId);  // Używamy przekazanego id
+             }
+         };
+ 
+-        // Po zakończeniu zadania, zaktualizuj interfejs
+         task.setOnSucceeded(event -> {
+             SquadsWrapper wrapper = task.getValue();
+             Team team = wrapper.getTeam();
+@@ -61,69 +73,68 @@
+ 
+             // Wyświetlamy zawodników
+             for (Player player : players) {
+-                // Tworzymy kontener na zdjęcie i podpis
+-                VBox playerBox = new VBox(5); // Odstęp między zdjęciem a podpisem
++                // Tworzymy kontener na zdjęcie zawodnika i podpis (VBox)
++                VBox playerBox = new VBox(5);
+                 playerBox.setStyle("-fx-alignment: center;");
+ 
+-                // Tworzymy zdjęcie zawodnika
+-                ImageView playerImage = new ImageView();
+-                playerImage.setImage(new Image(player.getPhoto()));
++                // Tworzymy ImageView dla zdjęcia zawodnika
++                ImageView playerImage = new ImageView(new Image(player.getPhoto()));
+                 playerImage.setFitWidth(80);
+                 playerImage.setFitHeight(80);
+ 
+-                // Tworzymy podpis (imię i numer)
++                // Tworzymy podpis z imieniem i numerem
+                 Label playerLabel = new Label(player.getName() + " (#" + player.getNumber() + ")");
+-                playerLabel.setMaxWidth(100); // Ograniczenie szerokości podpisu, aby się mieścił
+-                playerLabel.setWrapText(true); // Umożliwia zawijanie tekstu, jeśli nie mieści się w szerokości
++                playerLabel.setMaxWidth(100);
++                playerLabel.setWrapText(true);
+                 playerLabel.setStyle("-fx-text-alignment: center;");
+ 
+-                // Dodajemy zdarzenie kliknięcia na zdjęcie
++                // Dodajemy zdarzenie kliknięcia na zdjęcie – otwieramy okno szczegółów zawodnika
+                 playerImage.setOnMouseClicked(e -> {
+                     try {
+-                        openPlayerWindow(player,stage);  // Otwórz szczegóły zawodnika
++                        openPlayerWindow(player.getId(), stage);
+                     } catch (Exception ex) {
+                         throw new RuntimeException(ex);
+                     }
+                 });
+ 
+-                // Dodajemy zdjęcie i podpis do kontenera
++                // Dodajemy zdjęcie i podpis do kontenera zawodnika
+                 playerBox.getChildren().addAll(playerImage, playerLabel);
+-
+-                // Dodajemy kontener z zawodnikiem do layoutu
++                // Dodajemy kontener zawodnika do FlowPane
+                 playersBox.getChildren().add(playerBox);
+             }
+         });
+ 
+-        // Obsługuje wyjątki w przypadku błędów podczas pobierania danych
+         task.setOnFailed(event -> {
+             teamLabel.setText("Failed to load team and players data.");
+         });
+ 
+-        // Uruchamiamy wątek w tle
+         new Thread(task).start();
+ 
+-        // Tworzymy scenę z layoutem i ustawiamy ją na stage
+-        Scene scene = new Scene(vbox, 600, 400); // Dostosowanie rozmiaru
++        // Ustawiamy scenę na stage – wymiary przekazywane są z obiektu stage
++        Scene scene = new Scene(vbox, stage.getWidth(), stage.getHeight());
+         stage.setScene(scene);
+         stage.setTitle("Team and Players Info");
+         stage.show();
+     }
+ 
+-    private void openPlayerWindow(Player player, Stage stage) throws Exception {
+-        // Tworzymy nowe okno szczegółów zawodnika
+-        PlayerWindow playerWindow = new PlayerWindow(player.getId(), stage);
++    /**
++     * Metoda otwierająca okno szczegółów zawodnika.
++     * Przyjmuje identyfikator zawodnika oraz referencję do obecnego okna.
++     */
++    private void openPlayerWindow(int playerId, Stage stage) throws Exception {
++        // Tworzymy nowe okno szczegółów zawodnika (PlayerWindow pozostaje niezmienione)
++        PlayerWindow playerWindow = new PlayerWindow(playerId, stage);
+         Stage playerStage = new Stage();
+ 
+-        // Ustawiamy wymiary nowego okna na wymiary obecnego okna
++        // Ustawiamy wymiary nowego okna na te same, co obecnego
+         playerStage.setWidth(stage.getWidth());
+         playerStage.setHeight(stage.getHeight());
+ 
+         playerWindow.start(playerStage);
+-        stage.hide(); // Ukrywamy okno drużyny
++        stage.hide(); // Ukrywamy obecne okno
+     }
+ 
+-    public static void main(String[] args) {
+-        launch(args);
+-    }
++    // Nadpisanie domyślnej metody start – informujemy, że należy używać start(stage, id)
++
+ }
+ 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"3018c449-cc07-4152-8510-a0f6fb749b1f\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/module-info.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/module-info.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"generalSettings\">\r\n      <MavenGeneralSettings>\r\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\r\n      </MavenGeneralSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 1\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2sUgozuHdk3MX3czrQsY75Ky40Y\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Application.FootballApplication.executor\": \"Run\",\r\n    \"Application.HelloApplication.executor\": \"Run\",\r\n    \"Application.PlayerApp.executor\": \"Run\",\r\n    \"Application.PlayerWindow.executor\": \"Run\",\r\n    \"Application.TeamWindow.executor\": \"Run\",\r\n    \"Application.test.executor\": \"Run\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"kotlin-language-version-configured\": \"true\",\r\n    \"last_opened_file_path\": \"C:/Users/acer/Desktop/Studia/Semestr3/Football_Api_Project/Football_Api_Project\",\r\n    \"project.structure.last.edited\": \"SDKs\",\r\n    \"project.structure.proportion\": \"0.0\",\r\n    \"project.structure.side.proportion\": \"0.0\",\r\n    \"settings.editor.selected.configurable\": \"reference.settings.project.maven.repository.indices\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\r\n      <recent name=\"org.zpoif.project.players.playerapp\" />\r\n      <recent name=\"\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021\" />\r\n        <option value=\"jdk-22-openjdk-22-3183f394aec4-bad0321e\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"3018c449-cc07-4152-8510-a0f6fb749b1f\" name=\"Changes\" comment=\"\" />\r\n      <created>1738515747285</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1738515747285</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <breakpoint enabled=\"true\" type=\"java-exception\">\r\n          <properties class=\"java.lang.reflect.InvocationTargetException\" package=\"java.lang.reflect\" />\r\n          <option name=\"timeStamp\" value=\"1\" />\r\n        </breakpoint>\r\n        <breakpoint enabled=\"true\" type=\"java-exception\">\r\n          <properties class=\"java.util.NoSuchElementException\" package=\"java.util\" />\r\n          <option name=\"timeStamp\" value=\"2\" />\r\n        </breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision f71e308128a2867708df2c1a26b7290185d7437b)
++++ b/.idea/workspace.xml	(date 1738722676106)
+@@ -6,7 +6,11 @@
+   <component name="ChangeListManager">
+     <list default="true" id="3018c449-cc07-4152-8510-a0f6fb749b1f" name="Changes" comment="">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/database/upload_date.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/upload_date.csv" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/example/demoapp/FootballApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/ServerResp/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ServerResp/test.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -52,6 +56,7 @@
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+     "git-widget-placeholder": "main",
++    "ignore.virus.scanning.warn.message": "true",
+     "kotlin-language-version-configured": "true",
+     "last_opened_file_path": "C:/Users/acer/Desktop/Studia/Semestr3/Football_Api_Project/Football_Api_Project",
+     "project.structure.last.edited": "SDKs",
+Index: database/upload_date.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>2025-02-04 22:43:26
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/database/upload_date.csv b/database/upload_date.csv
+--- a/database/upload_date.csv	(revision f71e308128a2867708df2c1a26b7290185d7437b)
++++ b/database/upload_date.csv	(date 1738724420810)
+@@ -1,1 +1,1 @@
+-2025-02-04 22:43:26
+\ No newline at end of file
++2025-02-05 04:00:20
+\ No newline at end of file
+Index: src/main/java/module-info.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>module org.zpoif.project.players.playerapp {\r\n    requires javafx.controls;\r\n    requires javafx.fxml;\r\n\r\n    requires org.controlsfx.controls;\r\n    requires org.kordamp.bootstrapfx.core;\r\n    requires com.google.gson;\r\n    requires okhttp3;\r\n    requires com.opencsv;\r\n    requires org.jsoup;\r\n    opens org.zpoif.project.players.playerapp to com.google.gson, javafx.fxml; // Otwórz pakiet dla Gson\r\n    opens ServerResp to com.google.gson;\r\n\r\n    exports Vizualization;\r\n    exports ScrapeModule.example.demoapp;\r\n    opens ServerResp.SimpleObjects to com.google.gson;\r\n    opens ServerResp.Wrappers to com.google.gson;\r\n    opens ServerResp.Responses to com.google.gson;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/module-info.java b/src/main/java/module-info.java
+--- a/src/main/java/module-info.java	(revision f71e308128a2867708df2c1a26b7290185d7437b)
++++ b/src/main/java/module-info.java	(date 1738716095754)
+@@ -12,7 +12,7 @@
+     opens ServerResp to com.google.gson;
+ 
+     exports Vizualization;
+-    exports ScrapeModule.example.demoapp;
++    exports Vizualization.demoapp;
+     opens ServerResp.SimpleObjects to com.google.gson;
+     opens ServerResp.Wrappers to com.google.gson;
+     opens ServerResp.Responses to com.google.gson;
