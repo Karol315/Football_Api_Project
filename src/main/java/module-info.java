@@ -12,7 +12,7 @@ module org.zpoif.project.players.playerapp {
     opens ServerResp to com.google.gson;
 
     exports Vizualization;
-    exports ScrapeModule.example.demoapp;
+    exports Vizualization.demoapp;
     opens ServerResp.SimpleObjects to com.google.gson;
     opens ServerResp.Wrappers to com.google.gson;
     opens ServerResp.Responses to com.google.gson;
