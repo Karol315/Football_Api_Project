@@ -74,7 +74,7 @@ public class FootballApplication extends Application {
     }
 
     private TableView<Entry> createTableView(List<Entry> entries) {
-        TableView<Entry> table = new TableView<>();
+        TableView<Entry> table = new TableView<Entry>();
 
         TableColumn<Entry, String> clubNameCol = new TableColumn<>("Club Name");
         clubNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubName()));
@@ -88,7 +88,19 @@ public class FootballApplication extends Application {
         TableColumn<Entry, Integer> pointsCol = new TableColumn<>("Points");
         pointsCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getPoints()).asObject());
 
-        table.getColumns().addAll(positionCol, clubNameCol, matchesCol, pointsCol);
+        TableColumn<Entry, Integer> winsCol = new TableColumn<>("Wins");
+        winsCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getWins()).asObject());
+
+        TableColumn<Entry, Integer> drawsCol = new TableColumn<>("Draws");
+        drawsCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDraws()).asObject());
+
+        TableColumn<Entry, Integer> failuresCol = new TableColumn<>("Failures");
+        failuresCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getFailures()).asObject());
+
+        TableColumn<Entry, String> goalBalanceCol = new TableColumn<>("Goal Balance");
+        goalBalanceCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGoalBalance()));
+
+        table.getColumns().addAll(positionCol, clubNameCol, matchesCol, pointsCol, winsCol, drawsCol, failuresCol, goalBalanceCol);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         table.setItems(FXCollections.observableArrayList(entries));
 
