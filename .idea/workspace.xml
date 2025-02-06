@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3018c449-cc07-4152-8510-a0f6fb749b1f" name="Changes" comment="Now works">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Vizualization/InfoBubble.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Vizualization/TeamFetcher.java" afterDir="false" />
+    <list default="true" id="3018c449-cc07-4152-8510-a0f6fb749b1f" name="Changes" comment="Info icon added, team information providing function updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/upload_date.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/upload_date.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +93,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738725155778</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Info icon added, team information providing function updated">
+      <option name="closed" value="true" />
+      <created>1738807216044</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1738807216044</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -113,7 +117,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update to FootballApplication.java, &#10;path between windows created" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to FootballApplication.java, &#10;path between windows created" />
+    <MESSAGE value="Info icon added, team information providing function updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="Info icon added, team information providing function updated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
