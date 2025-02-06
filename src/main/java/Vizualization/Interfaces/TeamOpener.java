@@ -23,12 +23,12 @@ public interface TeamOpener {
         TeamWindow teamWindow = new TeamWindow(teamId, currentStage);
         Stage teamStage = new Stage();
 
-        // Ustawiamy wymiary nowego okna na te same, co obecnego
+
         teamStage.setWidth(currentStage.getWidth());
         teamStage.setHeight(currentStage.getHeight());
 
         teamWindow.start(teamStage);
-        currentStage.hide(); // Ukrywamy obecne okno
+        currentStage.hide();
     }
 
 
@@ -61,13 +61,13 @@ public interface TeamOpener {
             return -1;  // Jeśli ID nie zostanie znalezione
         };
 
-        // Spróbuj najpierw dla pełnej nazwy klubu
+        // Spróbuj  dla pełnej nazwy klubu
         int teamId = tryFetch.fetch(clubName);
         if (teamId != -1) {
             return teamId;
         }
 
-        // Jeśli klubName składa się z więcej niż jednego słowa, podzielmy na słowa i sprawdźmy najdłuższe
+        // Jeśli klubName składa się z więcej niż jednego słowa, sprawdźmy najdłuższe
         String[] words = clubName.split("\\s+");
         if (words.length > 1) {
             // Znajdź najdłuższe słowo
@@ -78,7 +78,6 @@ public interface TeamOpener {
                 }
             }
 
-            // Spróbuj ponownie z najdłuższym słowem
             teamId = tryFetch.fetch(longestWord);
         }
 

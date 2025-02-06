@@ -49,19 +49,19 @@ public class TeamWindow extends Application implements TeamOpener {
 
         // Sortowanie
         VBox sortBox = new VBox();
-        Label sortLabel = new Label("Sortuj zawodników według:");
+        Label sortLabel = new Label("Sort players by:");
         ComboBox<String> sortOptions = new ComboBox<>();
-        sortOptions.getItems().addAll("Numer koszulki", "Wiek", "Imię");
-        sortOptions.setValue("Numer koszulki");
+        sortOptions.getItems().addAll("Number", "Age", "Name");
+        sortOptions.setValue("Number");
         sortOptions.setOnAction(e -> sortPlayers(sortOptions.getValue()));
         sortBox.getChildren().addAll(sortLabel, sortOptions);
 
         // Pole wyszukiwania drużyny
         VBox searchBox = new VBox(5);
-        Label searchLabel = new Label("Wyszukaj inną drużynę:");
+        Label searchLabel = new Label("Search for another team:");
         TextField searchField = new TextField();
-        searchField.setPromptText("Wpisz nazwę drużyny...");
-        Button searchButton = new Button("Szukaj");
+        searchField.setPromptText("Enter a team name...");
+        Button searchButton = new Button("Search");
 
         searchButton.setOnAction(e -> {
             String newTeamName = searchField.getText().trim();
@@ -71,11 +71,11 @@ public class TeamWindow extends Application implements TeamOpener {
                     if (newTeamId != -1) {
                         openTeamWindow(newTeamId, stage);
                     } else {
-                        showErrorPopup("Błąd", "Nie znaleziono drużyny: " + newTeamName);
+                        showErrorPopup("Error", "Couldn't find a team: " + newTeamName);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    showErrorPopup("Błąd", "Wystąpił problem z pobieraniem drużyny.");
+                    showErrorPopup("Error", "There was a problem downloading the team data");
                 }
             }
         });
@@ -94,7 +94,7 @@ public class TeamWindow extends Application implements TeamOpener {
 
         displayPlayers();
 
-        InfoBubble infoBubble = new InfoBubble("Kliknij na zawodnika aby zobaczyć dodatkowe informacje");
+        InfoBubble infoBubble = new InfoBubble("Click on a player image to see additional information");
 
         // Układ AnchorPane
         AnchorPane root = new AnchorPane();
@@ -125,13 +125,13 @@ public class TeamWindow extends Application implements TeamOpener {
 
     private void sortPlayers(String criteria) {
         switch (criteria) {
-            case "Numer koszulki":
+            case "Number":
                 players.sort(Comparator.comparingInt(Player::getNumber));
                 break;
-            case "Wiek":
+            case "Age":
                 players.sort(Comparator.comparingInt(Player::getAge));
                 break;
-            case "Imię":
+            case "Name":
                 players.sort(Comparator.comparing(Player::getName));
                 break;
         }

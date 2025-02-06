@@ -119,7 +119,7 @@ public class FootballApplication extends Application implements TeamOpener {
                 e.printStackTrace();
             }
         } else {
-            showErrorPopup("Błąd", "Nie udało się znaleźć zespołu: " + clubName);
+            showErrorPopup("Error", "Couldn't find a team: " + clubName);
         }
     }
 
