@@ -1,6 +1,7 @@
 package Vizualization.demoapp;
 
 import Vizualization.PlayerWindow;
+import Vizualization.TeamFetcher;
 import Vizualization.TeamWindow;
 import com.google.gson.Gson;
 import javafx.application.Application;
@@ -126,27 +127,53 @@ public class FootballApplication extends Application {
         OkHttpClient client = new OkHttpClient();
         Gson gson = new Gson();
 
-        Request request = new Request.Builder()
-                .url("https://v3.football.api-sports.io/teams?search=" + clubName)
-                .addHeader("x-rapidapi-host", "v3.football.api-sports.io")
-                .addHeader("x-rapidapi-key", KEY)
-                .build();
+        // Wyrażenie lambda implementujące interfejs TeamFetcher
+        TeamFetcher tryFetch = (name) -> {
+            Request request = new Request.Builder()
+                    .url("https://v3.football.api-sports.io/teams?search=" + name)
+                    .addHeader("x-rapidapi-host", "v3.football.api-sports.io")
+                    .addHeader("x-rapidapi-key", KEY)
+                    .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (response.body() != null) {
-                String jsonData = response.body().string();
-                TeamResponse teamResponse = gson.fromJson(jsonData, TeamResponse.class);
+            try (Response response = client.newCall(request).execute()) {
+                if (response.body() != null) {
+                    String jsonData = response.body().string();
+                    TeamResponse teamResponse = gson.fromJson(jsonData, TeamResponse.class);
 
-                if (teamResponse.getResponse() != null && !teamResponse.getResponse().isEmpty()) {
-                    TeamVenueWrapper teamVenueWrapper = teamResponse.getResponse().getFirst();
-                    Team team = teamVenueWrapper.getTeam();
-                    return team.id;
+                    if (teamResponse.getResponse() != null && !teamResponse.getResponse().isEmpty()) {
+                        TeamVenueWrapper teamVenueWrapper = teamResponse.getResponse().getFirst();
+                        Team team = teamVenueWrapper.getTeam();
+                        return team.id;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return -1;  // Jeśli ID nie zostanie znalezione
+        };
+
+        // Spróbuj najpierw dla pełnej nazwy klubu
+        int teamId = tryFetch.fetch(clubName);
+        if (teamId != -1) {
+            return teamId;
+        }
+
+        // Jeśli klubName składa się z więcej niż jednego słowa, podzielmy na słowa i sprawdźmy najdłuższe
+        String[] words = clubName.split("\\s+");
+        if (words.length > 1) {
+            // Znajdź najdłuższe słowo
+            String longestWord = "";
+            for (String word : words) {
+                if (word.length() > longestWord.length()) {
+                    longestWord = word;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            // Spróbuj ponownie z najdłuższym słowem
+            teamId = tryFetch.fetch(longestWord);
         }
-        return -1;  // Jeśli ID nie zostanie znalezione
+
+        return teamId;
     }
 
     private void showErrorPopup(String title, String message) {

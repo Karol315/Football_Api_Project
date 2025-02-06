@@ -6,11 +6,14 @@ import ServerResp.SimpleObjects.Statistics;
 import ServerResp.Wrappers.SquadsWrapper;
 import javafx.application.Application;
 import javafx.concurrent.Task;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
@@ -83,7 +86,7 @@ public class TeamWindow extends Application {
                 playerImage.setFitHeight(80);
 
                 // Tworzymy podpis z imieniem i numerem
-                Label playerLabel = new Label(player.getName() + " (#" + player.getNumber() + ")");
+                Label playerLabel = new Label(player.getName() + "#" + player.getNumber());
                 playerLabel.setMaxWidth(100);
                 playerLabel.setWrapText(true);
                 playerLabel.setStyle("-fx-text-alignment: center;");
@@ -110,8 +113,30 @@ public class TeamWindow extends Application {
 
         new Thread(task).start();
 
+        InfoBubble infoBubble = new InfoBubble("Kliknij na zawodnika aby zobaczyć dodatkowe informacje");
+
+        // Ustawienie pozycji InfoBubble w rogu okna
+        infoBubble.setLayoutX(stage.getWidth() - infoBubble.getWidth() - 10);
+        infoBubble.setLayoutY(10);  // 10px od górnej krawędzi
+
+        // Utworzenie głównego AnchorPane
+        AnchorPane root = new AnchorPane();
+
+        // Umieszczamy VBox w AnchorPane i ustawiamy, by wypełniał całą przestrzeń
+        AnchorPane.setTopAnchor(vbox, 0.0);
+        AnchorPane.setLeftAnchor(vbox, 0.0);
+        AnchorPane.setRightAnchor(vbox, 0.0);
+        AnchorPane.setBottomAnchor(vbox, 0.0);
+
+        // Umieszczamy StackPane w prawym górnym rogu
+        AnchorPane.setTopAnchor(infoBubble, 10.0); // Odległość od góry
+        AnchorPane.setRightAnchor(infoBubble, 10.0); // Odległość od prawej krawędzi
+
+        // Dodanie obiektów do głównego kontenera
+        root.getChildren().addAll(vbox, infoBubble);
+
         // Ustawiamy scenę na stage – wymiary przekazywane są z obiektu stage
-        Scene scene = new Scene(vbox, stage.getWidth(), stage.getHeight());
+        Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
         stage.setScene(scene);
         stage.setTitle("Team and Players Info");
         stage.show();
@@ -134,7 +159,7 @@ public class TeamWindow extends Application {
         stage.hide(); // Ukrywamy obecne okno
     }
 
-    // Nadpisanie domyślnej metody start – informujemy, że należy używać start(stage, id)
+
 
 }
 

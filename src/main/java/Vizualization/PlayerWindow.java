@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -60,7 +61,30 @@ public class PlayerWindow extends Application {
                 yellowCardsLabel, redCardsLabel, shootingAccuracyLabel, minutesPlayedLabel, backButton
         );
 
-        Scene scene = new Scene(vbox, 350, 450);
+        InfoBubble infoBubble = new InfoBubble("Oto szczegółowe informacje o zawodniku z osatniego zakończonego sezonu");
+
+        // Ustawienie pozycji InfoBubble w rogu okna
+        infoBubble.setLayoutX(stage.getWidth() - infoBubble.getWidth() - 10);
+        infoBubble.setLayoutY(10);  // 10px od górnej krawędzi
+
+        // Utworzenie głównego AnchorPane
+        AnchorPane root = new AnchorPane();
+
+        // Umieszczamy VBox w AnchorPane i ustawiamy, by wypełniał całą przestrzeń
+        AnchorPane.setTopAnchor(vbox, 0.0);
+        AnchorPane.setLeftAnchor(vbox, 0.0);
+        AnchorPane.setRightAnchor(vbox, 0.0);
+        AnchorPane.setBottomAnchor(vbox, 0.0);
+
+        // Umieszczamy StackPane w prawym górnym rogu
+        AnchorPane.setTopAnchor(infoBubble, 10.0); // Odległość od góry
+        AnchorPane.setRightAnchor(infoBubble, 10.0); // Odległość od prawej krawędzi
+
+        // Dodanie obiektów do głównego kontenera
+        root.getChildren().addAll(vbox, infoBubble);
+
+        // Ustawiamy scenę na stage – wymiary przekazywane są z obiektu stage
+        Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
         stage.setScene(scene);
         stage.setTitle("Player Details");
         stage.show();
