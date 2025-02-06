@@ -21,24 +21,22 @@ public class ChampionsLeagueScrapeTable implements ScrapeTableInterface {
 
         try {
             Document document = jSoupConnection.getDocument();
-            System.out.println("Mamy dokument");
-            Element mainDiv = document.selectFirst("div.ag-center-cols-container");
-            assert mainDiv != null;
-            Elements clubs = mainDiv.select("div[role=row]");
 
-            for (Element club : clubs) {
-                Elements cells = club.select("div[role=gridcell]");
-                int tablePosition = Integer.parseInt(cells.getFirst().select("span.pk-text--text-03").getFirst().text());
-                System.out.println(tablePosition);
-                String clubName = cells.get(0).select("a").attr("title");
-                int matchesPlayed = Integer.parseInt(cells.get(1).select("span").getFirst().text());
-                int wins = Integer.parseInt(cells.get(6).select("span").getFirst().text());
-                int draws = Integer.parseInt(cells.get(7).select("span").getFirst().text());
-                int failures = Integer.parseInt(cells.get(8).select("span").getFirst().text());
-                int points = Integer.parseInt(cells.get(4).select("span").getFirst().text());
-                int scored = Integer.parseInt(cells.get(9).select("span").getFirst().text());
-                int conceded = Integer.parseInt(cells.get(10).select("span").getFirst().text());
-                String goalBalance = scored + ":" + conceded;
+            Element table = document.select("tbody.w-full.divide-y.divide-br-2-80").getFirst();
+            assert table != null;
+            Elements rows = table.select("tr.bg-br-2-100");
+
+            for (Element row : rows) {
+                Elements cells = row.select("td");
+
+                int tablePosition = Integer.parseInt(cells.get(1).text());
+                String clubName = cells.get(3).select("a").getFirst().text();
+                int matchesPlayed = Integer.parseInt(cells.get(5).text());
+                int wins = Integer.parseInt(cells.get(6).text());
+                int draws = Integer.parseInt(cells.get(7).text());
+                int failures = Integer.parseInt(cells.get(8).text());
+                int points = Integer.parseInt(cells.get(12).text());
+                String goalBalance = cells.get(11).text();
 
                 Entry entry = new Entry(clubName, tablePosition, matchesPlayed, points, wins, draws, failures, goalBalance);
                 entries.add(entry);

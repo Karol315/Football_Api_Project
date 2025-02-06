@@ -34,19 +34,23 @@ public class FootballApplication extends Application implements TeamOpener {
     public void start(Stage stage) {
         this.currentStage=stage;
         DataLoader.uploadData();
+        List<Entry> championsLeagueEntries = DataLoader.loadScrappedData("database/champions_league.csv");
         List<Entry> premierLeagueEntries = DataLoader.loadScrappedData("database/premier_league.csv");
         List<Entry> laligaEntries = DataLoader.loadScrappedData("database/laliga.csv");
         List<Entry> bundesligaEntries = DataLoader.loadScrappedData("database/bundesliga.csv");
         List<Entry> serieAEntries = DataLoader.loadScrappedData("database/seriea.csv");
+        List<Entry> leagueOneEntries = DataLoader.loadScrappedData("database/league_one.csv");
         List<Entry> ekstraklasaEntries = DataLoader.loadScrappedData("database/ekstraklasa.csv");
-        DataLoader.testDataLoader();
+        // DataLoader.testDataLoader();
 
         TabPane tabPane = new TabPane();
         tabPane.getTabs().addAll(
+                createLeagueTab("Champions League", championsLeagueEntries),
                 createLeagueTab("Premier League", premierLeagueEntries),
                 createLeagueTab("LaLiga", laligaEntries),
                 createLeagueTab("Bundesliga", bundesligaEntries),
                 createLeagueTab("Serie A", serieAEntries),
+                createLeagueTab("League One", leagueOneEntries),
                 createLeagueTab("Ekstraklasa", ekstraklasaEntries)
         );
 

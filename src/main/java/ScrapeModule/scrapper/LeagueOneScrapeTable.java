@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SerieAScrapeTable implements ScrapeTableInterface {
+public class LeagueOneScrapeTable implements ScrapeTableInterface {
     private final JSoupConnection jSoupConnection;
 
-    public SerieAScrapeTable(JSoupConnection jSoupConnection) {
+    public LeagueOneScrapeTable(JSoupConnection jSoupConnection) {
         this.jSoupConnection = jSoupConnection;
     }
 

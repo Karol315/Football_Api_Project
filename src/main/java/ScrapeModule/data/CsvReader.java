@@ -18,21 +18,21 @@ public class CsvReader {
             boolean isHeader = true;
 
             while ((values = reader.readNext()) != null) {
-                // Pomijamy nagłówki
+
                 if (isHeader) {
                     isHeader = false;
                     continue;
                 }
 
                 Entry entry = new Entry(
-                        values[0],                            // clubName
-                        Integer.parseInt(values[1]),          // tablePosition
-                        Integer.parseInt(values[2]),          // matchesPlayed
-                        Integer.parseInt(values[3]),          // points
-                        Integer.parseInt(values[4]),          // wins
-                        Integer.parseInt(values[5]),          // draws
-                        Integer.parseInt(values[6]),          // failures
-                        values[7]                             // goalBalance
+                        values[0],
+                        Integer.parseInt(values[1]),
+                        Integer.parseInt(values[2]),
+                        Integer.parseInt(values[3]),
+                        Integer.parseInt(values[4]),
+                        Integer.parseInt(values[5]),
+                        Integer.parseInt(values[6]),
+                        values[7]
                 );
                 entries.add(entry);
             }

@@ -4,21 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="3018c449-cc07-4152-8510-a0f6fb749b1f" name="Changes" comment="Players Sorting added">
+    <list default="true" id="e7c37301-b1d2-4f05-b188-c8ad06db8de0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundesliga.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/ekstraklasa.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/ekstraklasa.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/laliga.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/laliga.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/premier_league.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/premier_league.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seriea.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/seriea.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/upload_date.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/upload_date.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ekstraklasa.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/laliga.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/premier_league.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/CsvReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/CsvReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/DataLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/ChampionsLeagueScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/ChampionsLeagueScrapeTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/LaLigaScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/LaLigaScrapeTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/PremierLeagueScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/PremierLeagueScrapeTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/SerieAScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/SerieAScrapeTable.java" afterDir="false" />
-=======
-    <list default="true" id="3018c449-cc07-4152-8510-a0f6fb749b1f" name="Changes" comment="translated">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Vizualization/Exceptions/NoInternetConnectionException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/Interfaces/TeamFetcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/Interfaces/TeamFetcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/Interfaces/TeamOpener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/Interfaces/TeamOpener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" afterDir="false" />
->>>>>>> eed423bbd1d4d25edbd7f927a00e51737edb28b7
       <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

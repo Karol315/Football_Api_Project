@@ -39,8 +39,9 @@ public class PremierLeagueScrapeTable implements ScrapeTableInterface {
                 int draws = Integer.parseInt(cells.get(4).text());
                 int failures = Integer.parseInt(cells.get(5).text());
                 int points = Integer.parseInt(cells.get(9).text());
+                String goalBalance = cells.get(8).text();
 
-                Entry entry = new Entry(clubName, tablePosition, matchesPlayed, points, wins, draws, failures, "0:0");
+                Entry entry = new Entry(clubName, tablePosition, matchesPlayed, points, wins, draws, failures, goalBalance);
                 entries.add(entry);
             }
         } catch (IOException e) {

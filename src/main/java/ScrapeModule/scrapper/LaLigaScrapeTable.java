@@ -39,8 +39,9 @@ public class LaLigaScrapeTable implements ScrapeTableInterface {
                 int draws = Integer.parseInt(cells.get(3).select("p").getFirst().text());
                 int failures = Integer.parseInt(cells.get(4).select("p").getFirst().text());
                 int points = Integer.parseInt(cells.get(0).select("p").getFirst().text());
+                String goalBalance = cells.get(7).select("p").getFirst().text();
 
-                Entry entry = new Entry(clubName, tablePosition, matchesPlayed, points, wins, draws, failures, "0:0");
+                Entry entry = new Entry(clubName, tablePosition, matchesPlayed, points, wins, draws, failures, goalBalance);
                 entries.add(entry);
             }
         } catch (IOException e) {
