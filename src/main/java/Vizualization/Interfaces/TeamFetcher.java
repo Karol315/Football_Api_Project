@@ -1,4 +1,4 @@
-package Vizualization;
+package Vizualization.Interfaces;
 
 @FunctionalInterface
 public interface TeamFetcher {

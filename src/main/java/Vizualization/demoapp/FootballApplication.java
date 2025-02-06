@@ -1,7 +1,7 @@
 package Vizualization.demoapp;
 
-import Vizualization.PlayerWindow;
-import Vizualization.TeamFetcher;
+import Vizualization.Interfaces.TeamFetcher;
+import Vizualization.Interfaces.TeamOpener;
 import Vizualization.TeamWindow;
 import com.google.gson.Gson;
 import javafx.application.Application;
@@ -24,7 +24,7 @@ import ServerResp.SimpleObjects.Team;
 
 import java.util.List;
 
-public class FootballApplication extends Application {
+public class FootballApplication extends Application implements TeamOpener {
 
     private static final String KEY = "3a8e79e75eef3edc965de9344d41dd01";  // Wstaw swój klucz API
     Stage currentStage;
@@ -108,7 +108,7 @@ public class FootballApplication extends Application {
         return table;
     }
 
-    private void openClubDetails(Entry entry, Stage parentStage) {
+    public void openClubDetails(Entry entry, Stage currentStage) {
         String clubName = entry.getClubName();
         int teamId = fetchTeamId(clubName);  // Pobranie ID zespołu z API
 
@@ -123,85 +123,10 @@ public class FootballApplication extends Application {
         }
     }
 
-    private int fetchTeamId(String clubName) {
-        OkHttpClient client = new OkHttpClient();
-        Gson gson = new Gson();
 
-        // Wyrażenie lambda implementujące interfejs TeamFetcher
-        TeamFetcher tryFetch = (name) -> {
-            Request request = new Request.Builder()
-                    .url("https://v3.football.api-sports.io/teams?search=" + name)
-                    .addHeader("x-rapidapi-host", "v3.football.api-sports.io")
-                    .addHeader("x-rapidapi-key", KEY)
-                    .build();
 
-            try (Response response = client.newCall(request).execute()) {
-                if (response.body() != null) {
-                    String jsonData = response.body().string();
-                    TeamResponse teamResponse = gson.fromJson(jsonData, TeamResponse.class);
 
-                    if (teamResponse.getResponse() != null && !teamResponse.getResponse().isEmpty()) {
-                        TeamVenueWrapper teamVenueWrapper = teamResponse.getResponse().getFirst();
-                        Team team = teamVenueWrapper.getTeam();
-                        return team.id;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return -1;  // Jeśli ID nie zostanie znalezione
-        };
 
-        // Spróbuj najpierw dla pełnej nazwy klubu
-        int teamId = tryFetch.fetch(clubName);
-        if (teamId != -1) {
-            return teamId;
-        }
-
-        // Jeśli klubName składa się z więcej niż jednego słowa, podzielmy na słowa i sprawdźmy najdłuższe
-        String[] words = clubName.split("\\s+");
-        if (words.length > 1) {
-            // Znajdź najdłuższe słowo
-            String longestWord = "";
-            for (String word : words) {
-                if (word.length() > longestWord.length()) {
-                    longestWord = word;
-                }
-            }
-
-            // Spróbuj ponownie z najdłuższym słowem
-            teamId = tryFetch.fetch(longestWord);
-        }
-
-        return teamId;
-    }
-
-    private void showErrorPopup(String title, String message) {
-        Stage errorStage = new Stage();
-        errorStage.initModality(Modality.APPLICATION_MODAL);
-        errorStage.setTitle(title);
-
-        Label label = new Label(message);
-        VBox vbox = new VBox(label);
-        vbox.setStyle("-fx-padding: 10;");
-        Scene scene = new Scene(vbox, 300, 100);
-
-        errorStage.setScene(scene);
-        errorStage.show();
-    }
-
-    private void openTeamWindow(int teamId, Stage stage) throws Exception {
-
-        TeamWindow teamWindow = new TeamWindow(teamId, currentStage);
-        Stage teamStage = new Stage();
-
-        // Ustawiamy wymiary nowego okna na te same, co obecnego
-        teamStage.setWidth(stage.getWidth());
-        teamStage.setHeight(stage.getHeight());
-
-        teamWindow.start(teamStage);
-        currentStage.hide(); // Ukrywamy obecne okno
-    }
 
     public static void main(String[] args) {
         launch();

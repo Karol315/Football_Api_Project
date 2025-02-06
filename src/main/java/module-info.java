@@ -15,4 +15,5 @@ module Vizualization {
     opens ServerResp.SimpleObjects to com.google.gson;
     opens ServerResp.Wrappers to com.google.gson;
     opens ServerResp.Responses to com.google.gson;
+    exports Vizualization.Interfaces;
 }

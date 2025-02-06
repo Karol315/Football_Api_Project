@@ -3,22 +3,19 @@ package Vizualization;
 import ServerResp.SimpleObjects.Player;
 import ServerResp.SimpleObjects.Team;
 import ServerResp.Wrappers.SquadsWrapper;
+import Vizualization.Interfaces.TeamOpener;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.Comparator;
 import java.util.List;
 
-public class TeamWindow extends Application {
+public class TeamWindow extends Application implements TeamOpener {
 
     private Stage previousStage;
     private int teamId;
@@ -37,8 +34,6 @@ public class TeamWindow extends Application {
         vbox.setStyle("-fx-padding: 10; -fx-alignment: center;");
 
         ImageView teamLogo = new ImageView();
-        teamLogo.setFitWidth(200);
-        teamLogo.setFitHeight(200);
         Label teamLabel = new Label("Team: ");
 
         Button backButton = new Button("\u2190 Back");
@@ -52,18 +47,45 @@ public class TeamWindow extends Application {
         playersBox = new FlowPane(15, 15);
         playersBox.setStyle("-fx-alignment: center;");
 
-        VBox sortBox = new VBox(); // Tworzymy kontener dla etykiety i ComboBoxa
-
+        // Sortowanie
+        VBox sortBox = new VBox();
         Label sortLabel = new Label("Sortuj zawodników według:");
         ComboBox<String> sortOptions = new ComboBox<>();
-        sortOptions.getItems().addAll("Numer koszulki", "Wiek", "Nazwisko");
+        sortOptions.getItems().addAll("Numer koszulki", "Wiek", "Imię");
         sortOptions.setValue("Numer koszulki");
         sortOptions.setOnAction(e -> sortPlayers(sortOptions.getValue()));
+        sortBox.getChildren().addAll(sortLabel, sortOptions);
 
-        sortBox.getChildren().addAll(sortLabel, sortOptions); // Dodajemy elementy do kontenera
+        // Pole wyszukiwania drużyny
+        VBox searchBox = new VBox(5);
+        Label searchLabel = new Label("Wyszukaj inną drużynę:");
+        TextField searchField = new TextField();
+        searchField.setPromptText("Wpisz nazwę drużyny...");
+        Button searchButton = new Button("Szukaj");
 
+        searchButton.setOnAction(e -> {
+            String newTeamName = searchField.getText().trim();
+            if (!newTeamName.isEmpty()) {
+                try {
+                    int newTeamId = fetchTeamId(newTeamName);
+                    if (newTeamId != -1) {
+                        openTeamWindow(newTeamId, stage);
+                    } else {
+                        showErrorPopup("Błąd", "Nie znaleziono drużyny: " + newTeamName);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    showErrorPopup("Błąd", "Wystąpił problem z pobieraniem drużyny.");
+                }
+            }
+        });
+
+        searchBox.getChildren().addAll(searchLabel, searchField, searchButton);
+
+        // Dodanie elementów do głównego VBox
         vbox.getChildren().addAll(teamLogo, teamLabel, playersBox);
 
+        // Pobranie danych drużyny
         Team team = teamWrapper.getTeam();
         players = teamWrapper.getPlayers();
 
@@ -74,6 +96,7 @@ public class TeamWindow extends Application {
 
         InfoBubble infoBubble = new InfoBubble("Kliknij na zawodnika aby zobaczyć dodatkowe informacje");
 
+        // Układ AnchorPane
         AnchorPane root = new AnchorPane();
         AnchorPane.setTopAnchor(vbox, 0.0);
         AnchorPane.setLeftAnchor(vbox, 0.0);
@@ -83,13 +106,16 @@ public class TeamWindow extends Application {
         AnchorPane.setTopAnchor(infoBubble, 10.0);
         AnchorPane.setRightAnchor(infoBubble, 10.0);
 
-        AnchorPane.setLeftAnchor(sortBox,10.0);
-        AnchorPane.setTopAnchor(sortBox,45.0);
+        AnchorPane.setLeftAnchor(sortBox, 10.0);
+        AnchorPane.setTopAnchor(sortBox, 45.0);
 
-        AnchorPane.setLeftAnchor(backButton,10.0);
-        AnchorPane.setTopAnchor(backButton,10.0);
+        AnchorPane.setLeftAnchor(searchBox, 10.0);
+        AnchorPane.setTopAnchor(searchBox, 110.0); // Pod sortBox
 
-        root.getChildren().addAll(vbox, infoBubble,sortBox,backButton);
+        AnchorPane.setLeftAnchor(backButton, 10.0);
+        AnchorPane.setTopAnchor(backButton, 10.0);
+
+        root.getChildren().addAll(vbox, infoBubble, sortBox, searchBox, backButton);
 
         Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
         stage.setScene(scene);
@@ -118,7 +144,7 @@ public class TeamWindow extends Application {
             VBox playerBox = new VBox(5);
             playerBox.setStyle("-fx-alignment: center;");
 
-            ImageView playerImage = new ImageView(new Image(player.getPhoto()));
+            ImageView playerImage = new ImageView(new Image(player.getPhoto(), true));
             playerImage.setFitWidth(80);
             playerImage.setFitHeight(80);
 
