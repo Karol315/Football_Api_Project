@@ -18,9 +18,8 @@ public class ChampionsLeagueScrapeTable implements ScrapeTableInterface {
     @Override
     public List<Entry> scrapeLeagueTable() {
         List<Entry> entries = new ArrayList<>();
-        System.out.println("eoeo");
+
         try {
-            System.out.println("begin");
             Document document = jSoupConnection.getDocument();
             System.out.println("Mamy dokument");
             Element mainDiv = document.selectFirst("div.ag-center-cols-container");

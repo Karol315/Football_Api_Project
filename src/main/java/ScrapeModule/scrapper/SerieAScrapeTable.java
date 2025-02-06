@@ -21,7 +21,28 @@ public class SerieAScrapeTable implements ScrapeTableInterface {
 
         try {
             Document document = jSoupConnection.getDocument();
-            System.out.println(document.html());
+
+            Element table = document.select("tbody.w-full.divide-y.divide-br-2-80").getFirst();
+            assert table != null;
+            Elements rows = table.select("tr.bg-br-2-100");
+            System.out.println(rows.size());
+
+            for (Element row : rows) {
+                Elements cells = row.select("td");
+                System.out.println(cells.size());
+
+                int tablePosition = Integer.parseInt(cells.get(1).text());
+                System.out.println(tablePosition);
+                String clubName = cells.get(3).select("a").getFirst().text();
+                System.out.println(clubName);
+                int matchesPlayed = Integer.parseInt(cells.get(5).text());
+                int wins = Integer.parseInt(cells.get(6).text());
+                int draws = Integer.parseInt(cells.get(7).text());
+                int failures = Integer.parseInt(cells.get(8).text());
+                int points = Integer.parseInt(cells.get(9).text());
+
+                Entry entry = new Entry(clubName, tablePosition, matchesPlayed, points, wins, draws, failures, "0:0");
+                entries.add(entry);
 
 //            Element table = document.select("div.row").select("div.hm-components-with-title").get(1);
 //            assert table != null;
@@ -47,7 +68,7 @@ public class SerieAScrapeTable implements ScrapeTableInterface {
 //
 //                Entry entry = new Entry(clubName, tablePosition, matchesPlayed, points, wins, draws, failures, "0:0");
 //                entries.add(entry);
-//            }
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
