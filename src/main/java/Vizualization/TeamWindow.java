@@ -3,6 +3,7 @@ package Vizualization;
 import ServerResp.SimpleObjects.Player;
 import ServerResp.SimpleObjects.Team;
 import ServerResp.Wrappers.SquadsWrapper;
+import Vizualization.Exceptions.NoInternetConnectionException;
 import Vizualization.Interfaces.TeamOpener;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -73,9 +74,10 @@ public class TeamWindow extends Application implements TeamOpener {
                     } else {
                         showErrorPopup("Error", "Couldn't find a team: " + newTeamName);
                     }
+                }catch (NoInternetConnectionException ex) {
+                    showErrorPopup("Connection Error", "No internet connection. Please check your network and try again.");
                 } catch (Exception ex) {
-                    ex.printStackTrace();
-                    showErrorPopup("Error", "There was a problem downloading the team data");
+                    throw new RuntimeException(ex);
                 }
             }
         });
@@ -166,13 +168,20 @@ public class TeamWindow extends Application implements TeamOpener {
         }
     }
 
-    private void openPlayerWindow(int playerId, Stage stage) throws Exception {
-        PlayerWindow playerWindow = new PlayerWindow(playerId, stage);
-        Stage playerStage = new Stage();
-        playerStage.setWidth(stage.getWidth());
-        playerStage.setHeight(stage.getHeight());
-        playerWindow.start(playerStage);
-        stage.hide();
+    private void openPlayerWindow(int playerId, Stage stage) throws NoInternetConnectionException{
+        try {
+            PlayerWindow playerWindow = new PlayerWindow(playerId, stage);
+            Stage playerStage = new Stage();
+            playerStage.setWidth(stage.getWidth());
+            playerStage.setHeight(stage.getHeight());
+            playerWindow.start(playerStage);
+            stage.hide();
+        } catch (NoInternetConnectionException e) {
+            showErrorPopup("Connection Error", "No internet connection. Please check your network and try again.");
+        } catch (Exception e) {
+            showErrorPopup("Error", "Failed to open player details.");
+            e.printStackTrace();
+        }
     }
 }
 

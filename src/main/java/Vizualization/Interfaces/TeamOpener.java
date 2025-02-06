@@ -4,6 +4,7 @@ import ScrapeModule.scrapper.Entry;
 import ServerResp.Responses.TeamResponse;
 import ServerResp.SimpleObjects.Team;
 import ServerResp.Wrappers.TeamVenueWrapper;
+import Vizualization.Exceptions.NoInternetConnectionException;
 import Vizualization.TeamWindow;
 import com.google.gson.Gson;
 import javafx.scene.Scene;
@@ -32,11 +33,10 @@ public interface TeamOpener {
     }
 
 
-    public default int fetchTeamId(String clubName) {
+    public default int fetchTeamId(String clubName) throws NoInternetConnectionException {
         OkHttpClient client = new OkHttpClient();
         Gson gson = new Gson();
 
-        // Wyrażenie lambda implementujące interfejs TeamFetcher
         TeamFetcher tryFetch = (name) -> {
             Request request = new Request.Builder()
                     .url("https://v3.football.api-sports.io/teams?search=" + name)
@@ -55,29 +55,29 @@ public interface TeamOpener {
                         return team.id;
                     }
                 }
+            } catch (java.net.UnknownHostException | java.net.SocketTimeoutException e) {
+                throw new NoInternetConnectionException("No internet connection. Check your connection.");
             } catch (Exception e) {
                 e.printStackTrace();
+                throw new NoInternetConnectionException("There was a problem downloading data.");
             }
-            return -1;  // Jeśli ID nie zostanie znalezione
+            return -1;
         };
 
-        // Spróbuj  dla pełnej nazwy klubu
         int teamId = tryFetch.fetch(clubName);
         if (teamId != -1) {
             return teamId;
         }
 
-        // Jeśli klubName składa się z więcej niż jednego słowa, sprawdźmy najdłuższe
+        // Spróbuj ponownie z najdłuższym słowem w nazwie klubu
         String[] words = clubName.split("\\s+");
         if (words.length > 1) {
-            // Znajdź najdłuższe słowo
             String longestWord = "";
             for (String word : words) {
                 if (word.length() > longestWord.length()) {
                     longestWord = word;
                 }
             }
-
             teamId = tryFetch.fetch(longestWord);
         }
 

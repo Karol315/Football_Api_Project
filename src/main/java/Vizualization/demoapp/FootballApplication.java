@@ -1,5 +1,6 @@
 package Vizualization.demoapp;
 
+import Vizualization.Exceptions.NoInternetConnectionException;
 import Vizualization.Interfaces.TeamFetcher;
 import Vizualization.Interfaces.TeamOpener;
 import Vizualization.TeamWindow;
@@ -110,16 +111,20 @@ public class FootballApplication extends Application implements TeamOpener {
 
     public void openClubDetails(Entry entry, Stage currentStage) {
         String clubName = entry.getClubName();
-        int teamId = fetchTeamId(clubName);  // Pobranie ID zespołu z API
 
-        if (teamId != -1) {
-            try {
+        try {
+            int teamId = fetchTeamId(clubName);  // Fetch team ID from API
+
+            if (teamId != -1) {
                 openTeamWindow(teamId, currentStage);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                showErrorPopup("Error", "Team not found: " + clubName);
             }
-        } else {
-            showErrorPopup("Error", "Couldn't find a team: " + clubName);
+        } catch (NoInternetConnectionException e) {
+            showErrorPopup("Connection Error", e.getMessage());
+        } catch (Exception e) {
+            showErrorPopup("Unexpected Error", "Something went wrong.");
+            e.printStackTrace();
         }
     }
 
