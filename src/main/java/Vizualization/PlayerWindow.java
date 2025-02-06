@@ -61,7 +61,7 @@ public class PlayerWindow extends Application {
                 yellowCardsLabel, redCardsLabel, shootingAccuracyLabel, minutesPlayedLabel, backButton
         );
 
-        InfoBubble infoBubble = new InfoBubble("Oto szczegółowe informacje o zawodniku z osatniego zakończonego sezonu");
+        InfoBubble infoBubble = new InfoBubble("Here is detailed information about the player from the last completed season");
 
         // Ustawienie pozycji InfoBubble w rogu okna
         infoBubble.setLayoutX(stage.getWidth() - infoBubble.getWidth() - 10);
