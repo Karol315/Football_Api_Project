@@ -90,11 +90,4 @@ public class DataLoader {
             System.err.println("Błąd zapisu do pliku: " + e.getMessage());
         }
     }
-
-    // Metoda do testowania scrappingu danych
-    public static void testDataLoader() {
-        SerieAScrapeTable scrapeTable = new SerieAScrapeTable(new JSoupConnection("https://www.eurosport.com/football/serie-a/2024-2025/standings.shtml"));
-        List<Entry> entries = scrapeTable.scrapeLeagueTable();
-        System.out.println(entries);
-    }
 }
