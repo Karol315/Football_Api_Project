@@ -23,6 +23,7 @@ public class TeamWindow extends Application implements TeamOpener {
     private SquadsWrapper teamWrapper;
     private FlowPane playersBox;
     private List<Player> players;
+    private Stage stage;
 
     public TeamWindow(int teamId, Stage previousStage) {
         this.previousStage = previousStage;
@@ -31,6 +32,7 @@ public class TeamWindow extends Application implements TeamOpener {
     }
 
     public void start(Stage stage) throws Exception {
+        this.stage=stage;
         VBox vbox = new VBox(20);
         vbox.setStyle("-fx-padding: 10; -fx-alignment: center;");
 
@@ -157,7 +159,7 @@ public class TeamWindow extends Application implements TeamOpener {
 
             playerImage.setOnMouseClicked(e -> {
                 try {
-                    openPlayerWindow(player.getId(), previousStage);
+                    openPlayerWindow(player.getId(),stage );
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
