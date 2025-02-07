@@ -6,21 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e7c37301-b1d2-4f05-b188-c8ad06db8de0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bundesliga.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/ekstraklasa.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/ekstraklasa.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/laliga.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/laliga.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/premier_league.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/premier_league.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seriea.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/seriea.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/upload_date.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/upload_date.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ekstraklasa.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/laliga.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/premier_league.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/CsvReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/CsvReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/DataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/ChampionsLeagueScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/ChampionsLeagueScrapeTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/LaLigaScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/LaLigaScrapeTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/PremierLeagueScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/PremierLeagueScrapeTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/SerieAScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/SerieAScrapeTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +79,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3018c449-cc07-4152-8510-a0f6fb749b1f" name="Changes" comment="" />
+      <changelist id="e7c37301-b1d2-4f05-b188-c8ad06db8de0" name="Changes" comment="" />
       <created>1738515747285</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />

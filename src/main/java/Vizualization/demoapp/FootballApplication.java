@@ -27,7 +27,7 @@ import java.util.List;
 
 public class FootballApplication extends Application implements TeamOpener {
 
-    private static final String KEY = "3a8e79e75eef3edc965de9344d41dd01";  // Wstaw swój klucz API
+    private static final String KEY = "3a8e79e75eef3edc965de9344d41dd01";
     Stage currentStage;
 
     @Override
@@ -135,10 +135,7 @@ public class FootballApplication extends Application implements TeamOpener {
         }
     }
 
-
-
-
-
+    
 
     public static void main(String[] args) {
         launch();

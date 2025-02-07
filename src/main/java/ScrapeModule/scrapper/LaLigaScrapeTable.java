@@ -29,9 +29,7 @@ public class LaLigaScrapeTable implements ScrapeTableInterface {
 
             for (Element row : rows) {
                 int tablePosition = Integer.parseInt(row.select("div.styled__Td-sc-e89col-10.fTFWtb p").getFirst().text());
-                System.out.println(tablePosition);
                 String clubName = row.select("div.styled__ShieldContainer-sc-1opls7r-0.eIaTDi.shield-desktop p").getFirst().text();
-                System.out.println(clubName);
 
                 Elements cells = row.select("div.styled__Td-sc-e89col-10.feNufd");
                 int matchesPlayed = Integer.parseInt(cells.get(1).select("p").getFirst().text());
