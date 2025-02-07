@@ -23,6 +23,7 @@ public class TeamWindow extends Application implements TeamOpener {
     private SquadsWrapper teamWrapper;
     private FlowPane playersBox;
     private List<Player> players;
+    private Stage stage;
 
     public TeamWindow(int teamId, Stage previousStage) {
         this.previousStage = previousStage;
@@ -31,6 +32,7 @@ public class TeamWindow extends Application implements TeamOpener {
     }
 
     public void start(Stage stage) throws Exception {
+        this.stage=stage;
         VBox vbox = new VBox(20);
         vbox.setStyle("-fx-padding: 10; -fx-alignment: center;");
 
@@ -105,21 +107,21 @@ public class TeamWindow extends Application implements TeamOpener {
         AnchorPane.setRightAnchor(vbox, 0.0);
         AnchorPane.setBottomAnchor(vbox, 0.0);
 
+
         AnchorPane.setTopAnchor(infoBubble, 10.0);
         AnchorPane.setRightAnchor(infoBubble, 10.0);
 
-        AnchorPane.setLeftAnchor(sortBox, 10.0);
-        AnchorPane.setTopAnchor(sortBox, 45.0);
 
-        AnchorPane.setLeftAnchor(searchBox, 10.0);
-        AnchorPane.setTopAnchor(searchBox, 110.0); // Pod sortBox
+        VBox  util =  new VBox();
+        util.getChildren().addAll(backButton,sortBox,searchBox,searchButton);
 
-        AnchorPane.setLeftAnchor(backButton, 10.0);
-        AnchorPane.setTopAnchor(backButton, 10.0);
+        AnchorPane.setLeftAnchor(util, 10.0);
+        AnchorPane.setTopAnchor(util, 10.0);
 
-        root.getChildren().addAll(vbox, infoBubble, sortBox, searchBox, backButton);
+        root.getChildren().addAll(vbox, infoBubble, util);
 
         Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
+        scene.getStylesheets().add(getClass().getResource("/css/football-theme.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Team and Players Info");
         stage.show();
@@ -157,7 +159,7 @@ public class TeamWindow extends Application implements TeamOpener {
 
             playerImage.setOnMouseClicked(e -> {
                 try {
-                    openPlayerWindow(player.getId(), previousStage);
+                    openPlayerWindow(player.getId(),stage );
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }

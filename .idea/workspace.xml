@@ -4,9 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7c37301-b1d2-4f05-b188-c8ad06db8de0" name="Changes" comment="">
+    <list default="true" id="e7c37301-b1d2-4f05-b188-c8ad06db8de0" name="Changes" comment="css">
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_2025_15_40_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_2025_15_40__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_07_02_2025_01_00_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_07_02_2025_01_00_[Changes]1/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_07_02_2025_01_00__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_07_02_2025_01_00__Changes_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/css/football-theme.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/LaLigaScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/LaLigaScrapeTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/upload_date.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/upload_date.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,27 +51,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.FootballApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PlayerApp.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PlayerWindow.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TeamWindow.executor&quot;: &quot;Run&quot;,
-    &quot;Application.test.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/acer/Desktop/Studia/Semestr3/Football_Api_Project/Football_Api_Project&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.FootballApplication.executor": "Run",
+    "Application.HelloApplication.executor": "Run",
+    "Application.PlayerApp.executor": "Run",
+    "Application.PlayerWindow.executor": "Run",
+    "Application.TeamWindow.executor": "Run",
+    "Application.test.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "Merging main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/acer/Desktop/Studia/Semestr3/Football_Api_Project/Football_Api_Project",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="org.zpoif.project.players.playerapp" />
@@ -125,7 +135,23 @@
       <option name="project" value="LOCAL" />
       <updated>1738880713614</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="css">
+      <option name="closed" value="true" />
+      <created>1738887124124</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1738887124124</updated>
+    </task>
+    <task id="LOCAL-00007" summary="css">
+      <option name="closed" value="true" />
+      <created>1738887807778</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1738887807778</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -145,7 +171,9 @@
     <MESSAGE value="Players Sorting added" />
     <MESSAGE value="Team Searching added to TeamWindow" />
     <MESSAGE value="translated" />
-    <option name="LAST_COMMIT_MESSAGE" value="translated" />
+    <MESSAGE value="exceptions considered" />
+    <MESSAGE value="css" />
+    <option name="LAST_COMMIT_MESSAGE" value="css" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

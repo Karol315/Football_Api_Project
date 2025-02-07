@@ -9,8 +9,14 @@ import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -45,26 +51,47 @@ public class FootballApplication extends Application implements TeamOpener {
 
         TabPane tabPane = new TabPane();
         tabPane.getTabs().addAll(
-                createLeagueTab("Champions League", championsLeagueEntries),
-                createLeagueTab("Premier League", premierLeagueEntries),
-                createLeagueTab("LaLiga", laligaEntries),
-                createLeagueTab("Bundesliga", bundesligaEntries),
-                createLeagueTab("Serie A", serieAEntries),
-                createLeagueTab("League One", leagueOneEntries),
-                createLeagueTab("Ekstraklasa", ekstraklasaEntries)
+                createLeagueTab("Champions League", championsLeagueEntries, "file:images/ucl_logo.png"),
+                createLeagueTab("Premier League", premierLeagueEntries, "file:images/premier_league_logo.png"),
+                createLeagueTab("LaLiga", laligaEntries, "file:images/laliga_logo.png"),
+                createLeagueTab("Bundesliga", bundesligaEntries, "file:images/bundesliga_logo.png"),
+                createLeagueTab("Serie A", serieAEntries, "file:images/seriea_logo.png"),
+                createLeagueTab("Ligue One", leagueOneEntries, "file:images/league_one_logo.png"),
+                createLeagueTab("Ekstraklasa", ekstraklasaEntries, "file:images/ekstraklasa_logo.jpg")
         );
 
         Scene scene = new Scene(tabPane, 1000, 700);
         stage.setTitle("Football League Tables");
+        scene.getStylesheets().add(getClass().getResource("/css/football-theme.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
 
 
     }
 
-    private Tab createLeagueTab(String leagueName, List<Entry> entries) {
+    private Tab createLeagueTab(String leagueName, List<Entry> entries, String logoPath) {
+        // Logo
+        ImageView logo;
+        try {
+            logo = new ImageView(new Image(logoPath));
+        } catch (Exception e) {
+            System.err.println("Błąd ładowania obrazka: " + e.getMessage());
+            logo = new ImageView();
+        }
+        logo.setFitWidth(150);
+        logo.setFitHeight(150);
+        logo.setPreserveRatio(true);
+        HBox logoContainer = new HBox(logo);
+        logoContainer.setAlignment(Pos.CENTER);
+
         TableView<Entry> tableView = createTableView(entries);
-        Tab tab = new Tab(leagueName, tableView);
+
+        VBox content = new VBox(20);
+        content.setPadding(new Insets(20, 20, 20, 20));
+        content.getChildren().addAll(logoContainer, tableView);
+        VBox.setVgrow(tableView, Priority.ALWAYS);
+
+        Tab tab = new Tab(leagueName, content);
         tab.setClosable(false);
 
         // Dodajemy obsługę kliknięcia na wiersz tabeli
