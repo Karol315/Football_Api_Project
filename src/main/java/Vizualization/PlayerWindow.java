@@ -85,6 +85,7 @@ public class PlayerWindow extends Application {
 
         // Ustawiamy scenę na stage – wymiary przekazywane są z obiektu stage
         Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
+        scene.getStylesheets().add(getClass().getResource("/css/football-theme.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Player Details");
         stage.show();

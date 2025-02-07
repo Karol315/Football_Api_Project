@@ -105,21 +105,21 @@ public class TeamWindow extends Application implements TeamOpener {
         AnchorPane.setRightAnchor(vbox, 0.0);
         AnchorPane.setBottomAnchor(vbox, 0.0);
 
+
         AnchorPane.setTopAnchor(infoBubble, 10.0);
         AnchorPane.setRightAnchor(infoBubble, 10.0);
 
-        AnchorPane.setLeftAnchor(sortBox, 10.0);
-        AnchorPane.setTopAnchor(sortBox, 45.0);
 
-        AnchorPane.setLeftAnchor(searchBox, 10.0);
-        AnchorPane.setTopAnchor(searchBox, 110.0); // Pod sortBox
+        VBox  util =  new VBox();
+        util.getChildren().addAll(backButton,sortBox,searchBox,searchButton);
 
-        AnchorPane.setLeftAnchor(backButton, 10.0);
-        AnchorPane.setTopAnchor(backButton, 10.0);
+        AnchorPane.setLeftAnchor(util, 10.0);
+        AnchorPane.setTopAnchor(util, 10.0);
 
-        root.getChildren().addAll(vbox, infoBubble, sortBox, searchBox, backButton);
+        root.getChildren().addAll(vbox, infoBubble, util);
 
         Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
+        scene.getStylesheets().add(getClass().getResource("/css/football-theme.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Team and Players Info");
         stage.show();

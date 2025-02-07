@@ -56,6 +56,7 @@ public class FootballApplication extends Application implements TeamOpener {
 
         Scene scene = new Scene(tabPane, 1000, 700);
         stage.setTitle("Football League Tables");
+        scene.getStylesheets().add(getClass().getResource("/css/football-theme.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
 

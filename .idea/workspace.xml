@@ -4,23 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7c37301-b1d2-4f05-b188-c8ad06db8de0" name="Changes" comment="">
+    <list default="true" id="e7c37301-b1d2-4f05-b188-c8ad06db8de0" name="Changes" comment="exceptions considered">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/css/football-theme.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bundesliga.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/ekstraklasa.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/ekstraklasa.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/laliga.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/laliga.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/premier_league.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/premier_league.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seriea.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/seriea.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/upload_date.csv" beforeDir="false" afterPath="$PROJECT_DIR$/database/upload_date.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ekstraklasa.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/laliga.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/premier_league.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/CsvReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/CsvReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/data/DataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/ChampionsLeagueScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/ChampionsLeagueScrapeTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/LaLigaScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/LaLigaScrapeTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/PremierLeagueScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/PremierLeagueScrapeTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/SerieAScrapeTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScrapeModule/scrapper/SerieAScrapeTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/PlayerWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/TeamWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Vizualization/demoapp/FootballApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -159,7 +147,8 @@
     <MESSAGE value="Players Sorting added" />
     <MESSAGE value="Team Searching added to TeamWindow" />
     <MESSAGE value="translated" />
-    <option name="LAST_COMMIT_MESSAGE" value="translated" />
+    <MESSAGE value="exceptions considered" />
+    <option name="LAST_COMMIT_MESSAGE" value="exceptions considered" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
