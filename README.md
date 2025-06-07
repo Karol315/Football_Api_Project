@@ -7,6 +7,10 @@ Temat:
 <pre>
     Aplikacja do przeglądania statystyk ligowych, zespołów i zawodników ze świata piłki nożnej.  
 </pre>
+Kontekst:
+<pre>
+    Projekt powstał w ramach zaliczenia przedmiotu Zaawansowane Projektowanie Obiektowe i Funkcyjne na Wydziale Matematyki i Nauk Informacyjnych Politechniki Warszawskiej.
+</pre>
 Funkcjonalności: 
 <pre>
     •	Program desktopowy z interfejsem użytkownika.  
