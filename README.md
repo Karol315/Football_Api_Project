@@ -9,7 +9,8 @@ Temat:
 </pre>
 Kontekst:
 <pre>
-    Projekt powstał w ramach zaliczenia przedmiotu Zaawansowane Projektowanie Obiektowe i Funkcyjne na Wydziale Matematyki i Nauk Informacyjnych Politechniki Warszawskiej.
+    Projekt powstał w ramach zaliczenia przedmiotu Zaawansowane Projektowanie Obiektowe i Funkcyjne
+    na Wydziale Matematyki i Nauk Informacyjnych Politechniki Warszawskiej.
 </pre>
 Funkcjonalności: 
 <pre>
